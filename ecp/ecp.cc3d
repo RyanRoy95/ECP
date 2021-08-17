@@ -1,0 +1,6 @@
+<Simulation version="4.2.5">
+   <XMLScript Type="XMLScript">Simulation/ecp.xml</XMLScript>
+   <PythonScript Type="PythonScript">Simulation/ecp.py</PythonScript>
+   <Resource Type="Python">Simulation/Optimizer.py</Resource>
+   <Resource Type="Python">Simulation/ecpSteppables.py</Resource>
+</Simulation>

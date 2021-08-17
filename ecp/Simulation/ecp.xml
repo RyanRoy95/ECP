@@ -1,0 +1,139 @@
+<CompuCell3D Revision="20210612" Version="4.2.5">
+   
+   <Metadata>
+      
+      <!-- Basic properties simulation -->
+      <NumberOfProcessors>1</NumberOfProcessors>
+      <DebugOutputFrequency>10</DebugOutputFrequency>
+      <!-- <NonParallelModule Name="Potts"/> -->
+   </Metadata>
+   
+   <Potts>
+      
+      <!-- Basic properties of CPM (GGH) algorithm -->
+      <Dimensions x="100" y="100" z="1"/>
+      <Steps>1000</Steps>
+      <Temperature>10.0</Temperature>
+      <NeighborOrder>1</NeighborOrder>
+<Steppable Type="DiffusionSolverFE">
+   
+   <!-- Specification of PDE solvers -->
+   <DiffusionField Name="NA_PLUS">
+      <DiffusionData>
+         <FieldName>NA_PLUS</FieldName>
+         <GlobalDiffusionConstant>0.1</GlobalDiffusionConstant>
+         <GlobalDecayConstant>0</GlobalDecayConstant>
+         <!-- Additional options are: -->
+         <!-- <InitialConcentrationExpression>x*y</InitialConcentrationExpression> -->
+         <!-- <ConcentrationFileName>INITIAL CONCENTRATION FIELD - typically a file with path Simulation/NAME_OF_THE_FILE.txt</ConcentrationFileName> -->
+         <DiffusionCoefficient CellType="Apical">0.1</DiffusionCoefficient>
+         <DiffusionCoefficient CellType="Basal">0.1</DiffusionCoefficient>
+         <DiffusionCoefficient CellType="Testube">0.1</DiffusionCoefficient>
+         <DecayCoefficient CellType="Apical">0.0</DecayCoefficient>
+         <DecayCoefficient CellType="Basal">0.0</DecayCoefficient>
+         <DecayCoefficient CellType="Testube">0.0</DecayCoefficient>
+      </DiffusionData>
+      <SecretionData>
+         <!-- When secretion is defined inside DissufionSolverFE all secretion constants are scaled automaticaly to account for the extra calls to the diffusion step when handling large diffusion constants -->
+         
+         <!-- Uniform secretion Definition -->
+         <Secretion Type="Apical">0.1</Secretion>
+         <Secretion Type="Basal">0.1</Secretion>
+         <Secretion Type="Testube">0.1</Secretion>
+         <!-- <SecretionOnContact SecreteOnContactWith="Apical,Basal,Testube" Type="Testube">0.2</SecretionOnContact> -->
+         <!-- <ConstantConcentration Type="Testube">0.1</ConstantConcentration> -->
+      </SecretionData>
+      <BoundaryConditions>
+         <Plane Axis="X">
+            <ConstantValue PlanePosition="Min" Value="10.0"/>
+            <ConstantValue PlanePosition="Max" Value="10.0"/>
+            <!-- Other options are (examples): -->
+            <!-- <Periodic/> -->
+            <!-- <ConstantDerivative PlanePosition="Min" Value="10.0"/> -->
+         </Plane>
+         <Plane Axis="Y">
+            <ConstantDerivative PlanePosition="Min" Value="10.0"/>
+            <ConstantDerivative PlanePosition="Max" Value="10.0"/>
+            <!-- Other options are (examples): -->
+            <!-- <Periodic/> -->
+            <!-- <ConstantValue PlanePosition="Min" Value="10.0"/> -->
+         </Plane>
+      </BoundaryConditions>
+   </DiffusionField>
+   <DiffusionField Name="K_plus">
+      <DiffusionData>
+         <FieldName>K_plus</FieldName>
+         <GlobalDiffusionConstant>0.1</GlobalDiffusionConstant>
+         <GlobalDecayConstant>1e-05</GlobalDecayConstant>
+         <!-- Additional options are: -->
+         <!-- <InitialConcentrationExpression>x*y</InitialConcentrationExpression> -->
+         <!-- <ConcentrationFileName>INITIAL CONCENTRATION FIELD - typically a file with path Simulation/NAME_OF_THE_FILE.txt</ConcentrationFileName> -->
+         <DiffusionCoefficient CellType="Apical">0.1</DiffusionCoefficient>
+         <DiffusionCoefficient CellType="Basal">0.1</DiffusionCoefficient>
+         <DiffusionCoefficient CellType="Testube">0.1</DiffusionCoefficient>
+         <DecayCoefficient CellType="Apical">0.0</DecayCoefficient>
+         <DecayCoefficient CellType="Basal">0.0</DecayCoefficient>
+         <DecayCoefficient CellType="Testube">0.0</DecayCoefficient>
+      </DiffusionData>
+      <SecretionData>
+         <!-- When secretion is defined inside DissufionSolverFE all secretion constants are scaled automaticaly to account for the extra calls to the diffusion step when handling large diffusion constants -->
+         
+         <!-- Uniform secretion Definition -->
+         <Secretion Type="Apical">0.0</Secretion>
+         <Secretion Type="Basal">0.0</Secretion>
+         <Secretion Type="Testube">0.0</Secretion>
+         <!-- <SecretionOnContact SecreteOnContactWith="Apical,Basal,Testube" Type="Testube">0.2</SecretionOnContact> -->
+         <!-- <ConstantConcentration Type="Testube">0.1</ConstantConcentration> -->
+      </SecretionData>
+      <BoundaryConditions>
+         <Plane Axis="X">
+            <ConstantValue PlanePosition="Min" Value="10.0"/>
+            <ConstantValue PlanePosition="Max" Value="10.0"/>
+            <!-- Other options are (examples): -->
+            <!-- <Periodic/> -->
+            <!-- <ConstantDerivative PlanePosition="Min" Value="10.0"/> -->
+         </Plane>
+         <Plane Axis="Y">
+            <ConstantDerivative PlanePosition="Min" Value="10.0"/>
+            <ConstantDerivative PlanePosition="Max" Value="10.0"/>
+            <!-- Other options are (examples): -->
+            <!-- <Periodic/> -->
+            <!-- <ConstantValue PlanePosition="Min" Value="10.0"/> -->
+         </Plane>
+      </BoundaryConditions>
+   </DiffusionField>
+</Steppable>
+  
+   </Potts>
+   
+   <Plugin Name="CellType">
+      
+      <!-- Listing all cell types in the simulation -->
+      <CellType Freeze="" TypeId="0" TypeName="Medium"/>
+      <CellType Freeze="" TypeId="1" TypeName="Apical"/>
+      <CellType Freeze="" TypeId="2" TypeName="Basal"/>
+      <CellType Freeze="" TypeId="3" TypeName="Testube"/>
+   </Plugin>
+   
+   <Plugin Name="CenterOfMass">
+      
+      <!-- Module tracking center of mass of each cell -->
+   </Plugin>
+   
+   <Plugin Name="Contact">
+      <!-- Specification of adhesion energies -->
+      <Energy Type1="Medium" Type2="Medium">10.0</Energy>
+      <Energy Type1="Medium" Type2="Apical">10.0</Energy>
+      <Energy Type1="Medium" Type2="Basal">10.0</Energy>
+      <Energy Type1="Medium" Type2="Testube">10.0</Energy>
+      <Energy Type1="Apical" Type2="Apical">10.0</Energy>
+      <Energy Type1="Apical" Type2="Basal">10.0</Energy>
+      <Energy Type1="Apical" Type2="Testube">10.0</Energy>
+      <Energy Type1="Basal" Type2="Basal">10.0</Energy>
+      <Energy Type1="Basal" Type2="Testube">10.0</Energy>
+      <Energy Type1="Testube" Type2="Testube">10.0</Energy>
+      <NeighborOrder>4</NeighborOrder>
+   </Plugin>
+   
+   
+</CompuCell3D>
